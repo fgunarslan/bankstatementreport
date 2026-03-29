@@ -63,6 +63,12 @@ st.markdown(
         min-width: 170px !important;
         max-width: 170px !important;
     }
+
+    .report-table th.col-amount,
+    .report-table td.col-amount {
+        text-align: right !important;
+    }
+
     </style>
     """,
     unsafe_allow_html=True,
@@ -542,6 +548,8 @@ if uploaded_files:
             st.write(f"**Account Name:** {account_name}")
             st.write(f"**Statement Period:** {statement_period}")
             st.write(f"**Transaction count:** {len(group)}")
+            total_amount = group["Amount"].astype(str).str.replace(",", "", regex=False).astype(float).sum()
+            st.write(f"**Total Amount:** ${total_amount:,.2f}")
             display_group = group[["Transfer Date", "Description", "Amount", "Source File"]]
             st.dataframe(
                 display_group,
